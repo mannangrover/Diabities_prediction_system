@@ -105,12 +105,29 @@
                 <div class="glass p-8 rounded-3xl text-center">
                     <i class="fas fa-database text-blue-500 text-4xl mb-6"></i>
                     <h3 class="font-bold mb-4 uppercase text-sm tracking-widest">Dataset / Input</h3>
-                    <p class="text-sm text-slate-300 leading-relaxed"><strong>Datasets Used:</strong><br/>• BRFSS 2021 Survey<br/>• Fitbit Fitness Data<br/><br/><strong>Preprocessing:</strong><br/>• Missing value handling<br/>• Feature scaling<br/>• Lifestyle engineering<br/>• Class imbalance handling</p>
+                    <p class="text-sm text-slate-300 leading-relaxed text-left">
+                        <strong class="text-blue-400">Currently Used Dataset:</strong><br/>
+                        BRFSS (Behavioral Risk Factor Surveillance System)<br/><br/>
+                        <strong class="text-slate-400">Data Processing Summary:</strong><br/>
+                        Initial Dimensions: <strong>438,693 × 303</strong><br/>
+                        After Cleaning: <strong>119,485 × 17</strong><br/>
+                        Final Balanced: <strong>67,234 × 17</strong><br/><br/>
+                        <strong class="text-slate-400">Class Distribution (DIABETE4):</strong><br/>
+                        Diabetic (1.0): <strong>33,617</strong><br/>
+                        Non-Diabetic (0.0): <strong>33,617</strong><br/><br/>
+                        <strong class="text-purple-400">Future Dataset:</strong><br/>
+                        Fitbit Fitness Tracker Data<br/>
+                        <span class="text-xs text-slate-400">(Activity, heart rate, sleep, calories)</span>
+                    </p>
                 </div>
                 <div class="glass p-8 rounded-3xl text-center">
                     <i class="fas fa-microchip text-purple-500 text-4xl mb-6"></i>
                     <h3 class="font-bold mb-4 uppercase text-sm tracking-widest">Model / Architecture</h3>
-                    <p class="text-sm text-slate-300 leading-relaxed"><strong>🔹 Logistic Regression</strong><br/>Baseline interpretable prediction<br/><br/><strong>🔹 Random Forest</strong><br/>Complex interactions modeling<br/><br/><strong>🔹 XGBoost</strong><br/>High-performance risk prediction</p>
+                    <p class="text-sm text-slate-300 leading-relaxed text-left space-y-4">
+                        <span class="block"><strong class="text-purple-400">Random Forest:</strong><br/>Initially, the Random Forest algorithm was implemented to establish a strong baseline model. Random Forest is an ensemble learning technique that builds multiple decision trees and combines their outputs to improve prediction accuracy and reduce overfitting. It effectively captures non-linear relationships between health and lifestyle features. Using this approach, the model achieved an accuracy of approximately 67%.</span>
+                        <br/>
+                        <span class="block"><strong class="text-purple-400">XGBoost:</strong><br/>To improve predictive performance, XGBoost (Extreme Gradient Boosting) was subsequently implemented. XGBoost is an advanced boosting algorithm that builds trees sequentially, where each new tree corrects the errors of the previous ones. It includes regularization, optimized tree construction, and efficient handling of structured data, making it highly effective for healthcare prediction tasks. After hyperparameter tuning and optimization, XGBoost improved prediction performance and achieved a higher accuracy of 71%.</span>
+                    </p>
                 </div>
                 <div class="glass p-8 rounded-3xl text-center border-2 border-green-500/20 bg-green-500/5">
                     <i class="fab fa-python text-green-500 text-4xl mb-6"></i>
