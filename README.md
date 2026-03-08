@@ -15,5 +15,7 @@ https://www.kaggle.com/code/nadaemad2002/fitbit-fitness-tracker-data
 Live Demo
 
 👉 Colab Notebook:
-https://colab.research.google.com/drive/1DaYu3dJkxrdBVNVoSDpWLauH7qsybRKo?usp=sharing
+https://colab.research.google.com/drive/1DaYu3dJkxrdBVNVoSDpWLauH7qsybRKo?usp=sharing\
+
+Working Website: https://mannangrover.github.io/Diabities_prediction_system/
 
