@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,85 +10,196 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
-        body { background-color: #020617; color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .gradient-text { background: linear-gradient(90deg, #60a5fa, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
+
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+            font-size: 18px;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #60a5fa, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
         /* TIMER UI - FIXED CONTRAST */
-        #timerContainer { background: #ffffff; color: #020617; box-shadow: 0 10px 40px rgba(0,0,0,0.8); border: 3px solid #3b82f6; z-index: 1000; }
-        @keyframes flicker { 0%, 100% { background-color: #ffffff; } 50% { background-color: #fca5a5; } }
-        .timer-warning { animation: flicker 1s infinite; border: 3px solid #ef4444 !important; color: #b91c1c !important; }
-        .timer-stop { background-color: #991b1b !important; color: #ffffff !important; border: 3px solid #f87171 !important; animation: none; }
+        #timerContainer {
+            background: #ffffff;
+            color: #020617;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            border: 3px solid #3b82f6;
+            z-index: 1000;
+        }
+
+        @keyframes flicker {
+
+            0%,
+            100% {
+                background-color: #ffffff;
+            }
+
+            50% {
+                background-color: #fca5a5;
+            }
+        }
+
+        .timer-warning {
+            animation: flicker 1s infinite;
+            border: 3px solid #ef4444 !important;
+            color: #b91c1c !important;
+        }
+
+        .timer-stop {
+            background-color: #991b1b !important;
+            color: #ffffff !important;
+            border: 3px solid #f87171 !important;
+            animation: none;
+        }
+
+        /* Metric pulse animation */
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 5px rgba(16, 185, 129, 0.2);
+            }
+
+            50% {
+                box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+            }
+        }
+
+        .metric-highlight {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        /* Confusion matrix styling */
+        .cm-cell {
+            transition: transform 0.2s ease;
+        }
+
+        .cm-cell:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
+
 <body>
 
-    <div id="timerContainer" class="fixed bottom-10 right-10 px-8 py-4 rounded-3xl flex items-center gap-4 transition-all" style="background: #ffffff; color: #020617; box-shadow: 0 10px 40px rgba(0,0,0,0.8); border: 3px solid #3b82f6; z-index: 1000;">
+    <div id="timerContainer"
+        class="fixed bottom-10 right-10 px-8 py-4 rounded-3xl flex items-center gap-4 transition-all"
+        style="background: #ffffff; color: #020617; box-shadow: 0 10px 40px rgba(0,0,0,0.8); border: 3px solid #3b82f6; z-index: 1000;">
         <i class="fas fa-hourglass-start text-blue-600 text-2xl" id="timerIcon"></i>
         <span id="displayTime" class="text-4xl font-black font-mono tracking-tighter">00:00</span>
     </div>
 
     <nav class="fixed w-full z-50 glass border-b border-slate-800/50 px-8 py-4 flex justify-between items-center">
         <div class="flex items-center gap-4">
-            <div class="bg-white p-1 rounded flex items-center justify-center shadow-md" style="height: 48px; width: 48px;">
-                <img src="mujlogo.jpg" alt="MUJ" class="h-full w-auto object-contain" onerror="this.src='https://via.placeholder.com/50?text=MUJ'">
+            <div class="bg-white p-1 rounded flex items-center justify-center shadow-md"
+                style="height: 48px; width: 48px;">
+                <img src="mujlogo.jpg" alt="MUJ" class="h-full w-auto object-contain"
+                    onerror="this.src='https://via.placeholder.com/50?text=MUJ'">
             </div>
             <div class="flex flex-col text-left">
-                <span class="text-xl font-black text-white leading-none uppercase tracking-tighter">PBL <span class="text-blue-500 italic">2026</span></span>
-                <span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1">Dept. of Computer Science & Engineering</span>
+                <span class="text-xl font-black text-white leading-none uppercase tracking-tighter">PBL <span
+                        class="text-blue-500 italic">2026</span></span>
+                <span class="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">Dept. of Computer Science
+                    & Engineering</span>
             </div>
         </div>
-        <div class="hidden md:flex gap-8 text-[11px] uppercase tracking-widest font-bold opacity-70">
+        <div class="hidden md:flex gap-8 text-sm uppercase tracking-widest font-bold opacity-70">
             <a href="#problem" class="hover:text-blue-400 transition">Problem</a>
             <a href="#methodology" class="hover:text-blue-400 transition">Methodology</a>
             <a href="#results" class="hover:text-blue-400 transition">Results</a>
+            <a href="#features" class="hover:text-blue-400 transition">Features</a>
             <a href="#team" class="hover:text-blue-400 transition">Team</a>
         </div>
     </nav>
 
     <main class="max-w-6xl mx-auto px-6 pt-48 pb-32 space-y-32">
-        
+
         <section class="text-center">
-            <div class="inline-block px-4 py-1 border border-slate-800 rounded-full text-slate-500 text-[10px] font-mono mb-6 uppercase tracking-widest">ID: 2427030399</div>
-            <h1 class="text-7xl md:text-8xl font-extrabold mb-8 uppercase leading-tight"><span class="gradient-text uppercase">AI-Driven Early Diabetes Risk Prediction Using Clinical, Lifestyle & Wearable Data</span></h1>
-            <p class="text-slate-300 max-w-3xl mx-auto italic text-lg leading-relaxed border-l-2 border-blue-500/30 pl-6 text-left">
-                "This project predicts the risk of Type 2 diabetes at an early stage using machine learning models trained on clinical indicators, lifestyle behaviors, and wearable device data to enable preventive healthcare interventions."
+            <div
+                class="inline-block px-4 py-1 border border-slate-800 rounded-full text-slate-500 text-xs font-mono mb-6 uppercase tracking-widest">
+                ID: 2427030399</div>
+            <h1 class="text-7xl md:text-8xl font-extrabold mb-8 uppercase leading-tight"><span
+                    class="gradient-text uppercase">AI-Driven Early Diabetes Risk Prediction Using Lifestyle & Wearable
+                    Data</span></h1>
+            <p
+                class="text-slate-300 max-w-3xl mx-auto italic text-xl leading-relaxed border-l-2 border-blue-500/30 pl-6 text-left">
+                "This project predicts the risk of Type 2 diabetes at an early stage using machine learning models
+                trained on clinical indicators, lifestyle behaviors, and wearable device data to enable preventive
+                healthcare interventions."
             </p>
         </section>
 
         <section id="problem" class="grid md:grid-cols-2 gap-12 items-stretch">
             <div class="glass p-12 rounded-[2.5rem] flex flex-col justify-center border-l-4 border-blue-600">
                 <h2 class="text-4xl font-extrabold mb-8">Problem Statement</h2>
-                <p class="text-slate-300 leading-relaxed text-justify text-base space-y-4">Diabetes often remains undiagnosed until serious complications develop due to the slow and asymptomatic progression of Type 2 diabetes. Existing diagnostic methods rely on clinical blood tests that are reactive, invasive, and dependent on healthcare infrastructure.
-                <br/><br/>
-                This diagnostic gap results in millions of undetected cases and delayed treatment, increasing the risk of cardiovascular disease, kidney failure, nerve damage, and vision loss.
-                <br/><br/>
-                This project develops an AI-based diabetes risk prediction system that uses non-invasive health indicators, lifestyle behaviors, and wearable device data to identify high-risk individuals before clinical diagnosis, enabling proactive healthcare and early intervention.</p>
+                <p class="text-slate-300 leading-relaxed text-justify text-lg space-y-4">Diabetes often remains
+                    undiagnosed until serious complications develop due to the slow and asymptomatic progression of Type
+                    2 diabetes. Existing diagnostic methods rely on clinical blood tests that are reactive, invasive,
+                    and dependent on healthcare infrastructure.
+                    <br /><br />
+                    This diagnostic gap results in millions of undetected cases and delayed treatment, increasing the
+                    risk of cardiovascular disease, kidney failure, nerve damage, and vision loss.
+                    <br /><br />
+                    This project develops an AI-based diabetes risk prediction system that uses non-invasive health
+                    indicators, lifestyle behaviors, and wearable device data to identify high-risk individuals before
+                    clinical diagnosis, enabling proactive healthcare and early intervention.
+                </p>
             </div>
             <div class="space-y-6">
                 <div class="glass p-8 rounded-3xl border-r-4 border-blue-500/50">
-                    <h3 class="text-blue-400 font-bold text-sm uppercase tracking-widest mb-4">Literature Review</h3>
-                    <p class="text-sm text-slate-300 leading-relaxed space-y-3">
-                        Early prediction of diabetes has attracted significant research attention due to its potential to reduce long-term complications through preventive intervention.
-                        <br/><br/>
-                        Smith et al. (2022), "Machine Learning for Early Diabetes Diagnosis: A Comparative Study of Ensemble Methods," demonstrated that ensemble learning models significantly outperform traditional statistical approaches. Their findings showed improved sensitivity and specificity when Random Forest and boosting techniques were applied to health datasets.
-                        <br/><br/>
-                        Chen & Guestrin (2016), "XGBoost: A Scalable Tree Boosting System," introduced the XGBoost algorithm, which has become a benchmark for structured health data prediction due to its regularization capabilities and high predictive accuracy.
-                        <br/><br/>
-                        Chen et al. (2023), "The Impact of Feature Engineering on Predictive Accuracy in Chronic Disease Models," highlighted that incorporating lifestyle and behavioral features significantly improves predictive performance and model generalization.
-                        <br/><br/>
-                        Traditional statistical approaches remain clinically relevant. Hosmer & Lemeshow (2000), Applied Logistic Regression, established Logistic Regression as a reliable baseline model due to its interpretability and acceptance in medical research.
-                        <br/><br/>
-                        Explainability is critical in medical AI systems. Lundberg & Lee (2017), "A Unified Approach to Interpreting Model Predictions," introduced SHAP, a framework that explains machine learning predictions and improves transparency and clinical trust.
-                        <br/><br/>
-                        Recent advancements also emphasize continuous monitoring. Piwek et al. (2016), "The Rise of Consumer Health Wearables," highlighted the potential of wearable devices to collect continuous physiological data such as heart rate, sleep patterns, and physical activity, enabling proactive disease risk assessment.
-                        <br/><br/>
-                        Collectively, these studies demonstrate that combining ensemble machine learning models, lifestyle-based features, wearable data, and explainable AI can significantly enhance early diabetes risk prediction.
+                    <h3 class="text-blue-400 font-bold text-base uppercase tracking-widest mb-4">Literature Review</h3>
+                    <p class="text-base text-slate-300 leading-relaxed space-y-3">
+                        Early prediction of diabetes has attracted significant research attention due to its potential
+                        to reduce long-term complications through preventive intervention.
+                        <br /><br />
+                        Smith et al. (2022), "Machine Learning for Early Diabetes Diagnosis: A Comparative Study of
+                        Ensemble Methods," demonstrated that ensemble learning models significantly outperform
+                        traditional statistical approaches. Their findings showed improved sensitivity and specificity
+                        when Random Forest and boosting techniques were applied to health datasets.
+                        <br /><br />
+                        Chen & Guestrin (2016), "XGBoost: A Scalable Tree Boosting System," introduced the XGBoost
+                        algorithm, which has become a benchmark for structured health data prediction due to its
+                        regularization capabilities and high predictive accuracy.
+                        <br /><br />
+                        Chen et al. (2023), "The Impact of Feature Engineering on Predictive Accuracy in Chronic Disease
+                        Models," highlighted that incorporating lifestyle and behavioral features significantly improves
+                        predictive performance and model generalization.
+                        <br /><br />
+                        Traditional statistical approaches remain clinically relevant. Hosmer & Lemeshow (2000), Applied
+                        Logistic Regression, established Logistic Regression as a reliable baseline model due to its
+                        interpretability and acceptance in medical research.
+                        <br /><br />
+                        Explainability is critical in medical AI systems. Lundberg & Lee (2017), "A Unified Approach to
+                        Interpreting Model Predictions," introduced SHAP, a framework that explains machine learning
+                        predictions and improves transparency and clinical trust.
+                        <br /><br />
+                        Recent advancements also emphasize continuous monitoring. Piwek et al. (2016), "The Rise of
+                        Consumer Health Wearables," highlighted the potential of wearable devices to collect continuous
+                        physiological data such as heart rate, sleep patterns, and physical activity, enabling proactive
+                        disease risk assessment.
+                        <br /><br />
+                        Collectively, these studies demonstrate that combining ensemble machine learning models,
+                        lifestyle-based features, wearable data, and explainable AI can significantly enhance early
+                        diabetes risk prediction.
                     </p>
                 </div>
                 <div class="glass p-8 rounded-3xl border-r-4 border-purple-500/50">
-                    <h3 class="text-purple-400 font-bold text-sm uppercase tracking-widest mb-4">Research Gap / Innovation</h3>
-                    <ul class="text-sm text-slate-300 space-y-2">
+                    <h3 class="text-purple-400 font-bold text-base uppercase tracking-widest mb-4">Research Gap /
+                        Innovation</h3>
+                    <ul class="text-base text-slate-300 space-y-3">
                         <li>• Most models rely only on clinical/lab data</li>
                         <li>• Limited use of daily lifestyle & wearable metrics</li>
                         <li>• Lack of early prediction before symptoms</li>
@@ -100,80 +212,462 @@
         </section>
 
         <section id="methodology" class="space-y-12">
-            <h2 class="text-5xl font-black text-center uppercase tracking-tight">System <span class="text-blue-500">Methodology</span></h2>
+            <h2 class="text-5xl font-black text-center uppercase tracking-tight">System <span
+                    class="text-blue-500">Methodology</span></h2>
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="glass p-8 rounded-3xl text-center">
                     <i class="fas fa-database text-blue-500 text-4xl mb-6"></i>
-                    <h3 class="font-bold mb-4 uppercase text-sm tracking-widest">Dataset / Input</h3>
-                    <p class="text-sm text-slate-300 leading-relaxed text-left">
-                        <strong class="text-blue-400">Currently Used Dataset:</strong><br/>
-                        BRFSS (Behavioral Risk Factor Surveillance System)<br/><br/>
-                        <strong class="text-slate-400">Data Processing Summary:</strong><br/>
-                        Initial Dimensions: <strong>438,693 × 303</strong><br/>
-                        After Cleaning: <strong>119,485 × 17</strong><br/>
-                        Final Balanced: <strong>67,234 × 17</strong><br/><br/>
-                        <strong class="text-slate-400">Class Distribution (DIABETE4):</strong><br/>
-                        Diabetic (1.0): <strong>33,617</strong><br/>
-                        Non-Diabetic (0.0): <strong>33,617</strong><br/><br/>
-                        <strong class="text-purple-400">Future Dataset:</strong><br/>
-                        Fitbit Fitness Tracker Data<br/>
-                        <span class="text-xs text-slate-400">(Activity, heart rate, sleep, calories)</span>
+                    <h3 class="font-bold mb-4 uppercase text-base tracking-widest">Dataset / Input</h3>
+                    <p class="text-base text-slate-300 leading-relaxed text-left">
+                        <strong class="text-blue-400">Currently Used Dataset:</strong><br />
+                        BRFSS (Behavioral Risk Factor Surveillance System) — CDC 2021<br /><br />
+                        <strong class="text-slate-400">Data Processing Summary:</strong><br />
+                        Initial Dimensions: <strong>438,693 × 303</strong><br />
+                        After Feature Selection: <strong>437,711 × 26</strong><br />
+                        Features Used: <strong>25</strong> (+ 1 target)<br /><br />
+                        <strong class="text-slate-400">Improved Feature Engineering:</strong><br />
+                        • Median imputation (preserves 437K records)<br />
+                        • Added BMI category, mental health days, depression, smoker intensity, and detailed diet
+                        scores<br /><br />
+                        <strong class="text-slate-400">Class Distribution:</strong><br />
+                        Non-Diabetic (0.0): <strong>74,031</strong> (test)<br />
+                        Diabetic (1.0): <strong>13,512</strong> (test)<br />
+                        Scale Pos Weight: <strong>5.48</strong><br /><br />
+                        <strong class="text-purple-400">Future Dataset:</strong><br />
+                        AI-READI — Flagship Dataset of Type 2 Diabetes<br /><br />
+                        <strong class="text-slate-400">Wearable Data (Key Focus):</strong><br />
+                        <span class="text-sm text-slate-300">• <strong>Garmin Vivosmart 5</strong> — Heart rate, SpO2,
+                            steps, calories, respiratory rate, sleep stages, stress level (sampled every 5 sec, 10-day
+                            continuous wear)</span><br />
+                        <span class="text-sm text-slate-300">• <strong>Dexcom G6 CGM</strong> — Continuous blood glucose
+                            (every 5 min, 10-day wear)</span><br /><br />
+                        <span class="text-sm text-slate-400">Maps directly to consumer wearables like Fitbit, Samsung
+                            Galaxy Watch, and Apple Watch. Designed specifically for AI/ML-based T2DM research with
+                            balanced recruitment across diabetes severity.</span>
                     </p>
                 </div>
                 <div class="glass p-8 rounded-3xl text-center">
                     <i class="fas fa-microchip text-purple-500 text-4xl mb-6"></i>
-                    <h3 class="font-bold mb-4 uppercase text-sm tracking-widest">Model / Architecture</h3>
-                    <p class="text-sm text-slate-300 leading-relaxed text-left space-y-4">
-                        <span class="block"><strong class="text-purple-400">Random Forest:</strong><br/>Initially, the Random Forest algorithm was implemented to establish a strong baseline model. Random Forest is an ensemble learning technique that builds multiple decision trees and combines their outputs to improve prediction accuracy and reduce overfitting. It effectively captures non-linear relationships between health and lifestyle features. Using this approach, the model achieved an accuracy of approximately 67%.</span>
-                        <br/>
-                        <span class="block"><strong class="text-purple-400">XGBoost:</strong><br/>To improve predictive performance, XGBoost (Extreme Gradient Boosting) was subsequently implemented. XGBoost is an advanced boosting algorithm that builds trees sequentially, where each new tree corrects the errors of the previous ones. It includes regularization, optimized tree construction, and efficient handling of structured data, making it highly effective for healthcare prediction tasks. After hyperparameter tuning and optimization, XGBoost improved prediction performance and achieved a higher accuracy of 71%.</span>
+                    <h3 class="font-bold mb-4 uppercase text-base tracking-widest">Model / Architecture</h3>
+                    <p class="text-base text-slate-300 leading-relaxed text-left space-y-4">
+                        <span class="block"><strong class="text-purple-400">Phase 1 — Random Forest
+                                (Baseline):</strong><br />Ensemble of decision trees to establish baseline. Achieved
+                            <strong class="text-white">~67% accuracy</strong> on balanced dataset.</span>
+                        <br />
+                        <span class="block"><strong class="text-purple-400">Phase 2 — XGBoost
+                                (Initial):</strong><br />Gradient boosted trees with GPU acceleration (CUDA). 500 trees,
+                            lr=0.05, max_depth=6. Achieved <strong class="text-white">67.23% accuracy</strong>.
+                            Hyperparameter tuning via RandomizedSearchCV improved recall to <strong
+                                class="text-white">71%</strong>.</span>
+                        <br />
+                        <span class="block"><strong class="text-green-400">Phase 3 — XGBoost (Improved) ✓
+                                Current:</strong><br />25 features, 437K records, class-weighted training
+                            (scale_pos_weight=5.48). Tuned with 30-iteration RandomizedSearchCV + threshold
+                            optimization. Best params: 1200 trees, lr=0.01, max_depth=6, subsample=0.9, L1/L2
+                            regularization. Final threshold set at <strong class="text-white">0.70</strong> to
+                            prioritize recall. Achieved <strong class="text-white text-lg">82.43% accuracy</strong> with
+                            <strong class="text-white">ROC-AUC 0.8247</strong>.</span>
                     </p>
                 </div>
                 <div class="glass p-8 rounded-3xl text-center border-2 border-green-500/20 bg-green-500/5">
                     <i class="fab fa-python text-green-500 text-4xl mb-6"></i>
-                    <h3 class="font-bold mb-4 uppercase text-sm tracking-widest text-green-400">Live Execution</h3>
-                    <a href="https://colab.research.google.com/drive/1DaYu3dJkxrdBVNVoSDpWLauH7qsybRKo?usp=sharing#scrollTo=uHixIYQqR3zG" target="_blank" class="px-6 py-3 bg-green-600 rounded-full text-[11px] font-black hover:bg-green-500 transition shadow-lg shadow-green-900/40 inline-block">VIEW LIVE NOTEBOOK</a>
+                    <h3 class="font-bold mb-4 uppercase text-base tracking-widest text-green-400">Live Execution</h3>
+                    <p class="text-base text-slate-400 mb-4">Full training pipeline running on Google Colab with T4 GPU
+                    </p>
+                    <a href="https://colab.research.google.com/drive/1DaYu3dJkxrdBVNVoSDpWLauH7qsybRKo?usp=sharing#scrollTo=uHixIYQqR3zG"
+                        target="_blank"
+                        class="px-8 py-4 bg-green-600 rounded-full text-sm font-black hover:bg-green-500 transition shadow-lg shadow-green-900/40 inline-block">VIEW
+                        LIVE NOTEBOOK</a>
+
+                    <div class="mt-6 text-left space-y-2 text-sm text-slate-400">
+                        <p><strong class="text-slate-300">Best Hyperparameters Found:</strong></p>
+                        <code class="block bg-black/30 p-3 rounded-lg text-green-400 leading-relaxed">
+                            n_estimators: 1200<br/>
+                            learning_rate: 0.01<br/>
+                            max_depth: 6<br/>
+                            subsample: 0.9<br/>
+                            colsample_bytree: 0.7<br/>
+                            min_child_weight: 3<br/>
+                            reg_alpha: 1<br/>
+                            reg_lambda: 1.5<br/>
+                            gamma: 0
+                        </code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Architecture Pipeline -->
+            <div class="mt-16">
+                <h3 class="text-slate-300 font-bold text-base uppercase tracking-widest mb-8 text-center"><i
+                        class="fas fa-project-diagram mr-2"></i>System Architecture Pipeline</h3>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-0">
+                    <!-- Step 1 -->
+                    <div class="glass px-6 py-5 rounded-2xl text-center min-w-[160px] border-t-2 border-blue-500/50">
+                        <i class="fas fa-database text-blue-400 text-2xl mb-3"></i>
+                        <p class="text-sm font-bold text-blue-400 uppercase tracking-wider">Raw Data</p>
+                        <p class="text-xs text-slate-400 mt-1">BRFSS 2021<br />438K × 303</p>
+                    </div>
+                    <i class="fas fa-arrow-right text-slate-600 text-xl mx-2 hidden md:block"></i>
+                    <i class="fas fa-arrow-down text-slate-600 text-xl my-2 md:hidden"></i>
+                    <!-- Step 2 -->
+                    <div class="glass px-6 py-5 rounded-2xl text-center min-w-[160px] border-t-2 border-purple-500/50">
+                        <i class="fas fa-broom text-purple-400 text-2xl mb-3"></i>
+                        <p class="text-sm font-bold text-purple-400 uppercase tracking-wider">Preprocessing</p>
+                        <p class="text-xs text-slate-400 mt-1">Median Imputation<br />Missing Value Handling</p>
+                    </div>
+                    <i class="fas fa-arrow-right text-slate-600 text-xl mx-2 hidden md:block"></i>
+                    <i class="fas fa-arrow-down text-slate-600 text-xl my-2 md:hidden"></i>
+                    <!-- Step 3 -->
+                    <div class="glass px-6 py-5 rounded-2xl text-center min-w-[160px] border-t-2 border-yellow-500/50">
+                        <i class="fas fa-cogs text-yellow-400 text-2xl mb-3"></i>
+                        <p class="text-sm font-bold text-yellow-400 uppercase tracking-wider">Feature Eng.</p>
+                        <p class="text-xs text-slate-400 mt-1">303 → 25 Features<br />BMI, Diet, Activity</p>
+                    </div>
+                    <i class="fas fa-arrow-right text-slate-600 text-xl mx-2 hidden md:block"></i>
+                    <i class="fas fa-arrow-down text-slate-600 text-xl my-2 md:hidden"></i>
+                    <!-- Step 4 -->
+                    <div class="glass px-6 py-5 rounded-2xl text-center min-w-[160px] border-t-2 border-green-500/50">
+                        <i class="fas fa-brain text-green-400 text-2xl mb-3"></i>
+                        <p class="text-sm font-bold text-green-400 uppercase tracking-wider">XGBoost</p>
+                        <p class="text-xs text-slate-400 mt-1">1200 Trees, GPU<br />RandomizedSearchCV</p>
+                    </div>
+                    <i class="fas fa-arrow-right text-slate-600 text-xl mx-2 hidden md:block"></i>
+                    <i class="fas fa-arrow-down text-slate-600 text-xl my-2 md:hidden"></i>
+                    <!-- Step 5 -->
+                    <div class="glass px-6 py-5 rounded-2xl text-center min-w-[160px] border-t-2 border-orange-500/50">
+                        <i class="fas fa-sliders-h text-orange-400 text-2xl mb-3"></i>
+                        <p class="text-sm font-bold text-orange-400 uppercase tracking-wider">Threshold</p>
+                        <p class="text-xs text-slate-400 mt-1">Optimized @ 0.70<br />Recall Priority</p>
+                    </div>
+                    <i class="fas fa-arrow-right text-slate-600 text-xl mx-2 hidden md:block"></i>
+                    <i class="fas fa-arrow-down text-slate-600 text-xl my-2 md:hidden"></i>
+                    <!-- Step 6 -->
+                    <div
+                        class="bg-green-500/10 border-2 border-green-500/30 px-6 py-5 rounded-2xl text-center min-w-[160px]">
+                        <i class="fas fa-check-circle text-green-400 text-2xl mb-3"></i>
+                        <p class="text-sm font-bold text-green-400 uppercase tracking-wider">Prediction</p>
+                        <p class="text-xs text-slate-400 mt-1">82.43% Accuracy<br />ROC-AUC 0.8247</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURES SECTION — from notebook documentation -->
+        <section id="features" class="space-y-12">
+            <h2 class="text-5xl font-black text-center uppercase tracking-tight">Feature <span
+                    class="text-purple-500">Engineering</span></h2>
+            <p class="text-slate-400 text-center max-w-3xl mx-auto text-base">25 features across 5 categories, selected
+                from the CDC BRFSS 2021 survey (303 columns → 25 engineered features)</p>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Physiologic & Metabolic -->
+                <div class="glass p-6 rounded-2xl border-t-2 border-red-500/50">
+                    <h3 class="text-red-400 font-bold text-sm uppercase tracking-widest mb-4"><i
+                            class="fas fa-heartbeat mr-2"></i>Physiologic & Metabolic</h3>
+                    <ul class="text-sm text-slate-300 space-y-3">
+                        <li><strong class="text-slate-100">_BMI5</strong> — Body Mass Index (÷100)</li>
+                        <li><strong class="text-slate-100">_BMI5CAT</strong> — BMI Category (1-4)</li>
+                        <li><strong class="text-slate-100">BPHIGH6</strong> — High Blood Pressure History <span
+                                class="text-red-400 font-bold">#1 Feature</span></li>
+                        <li><strong class="text-slate-100">TOLDHI3</strong> — High Cholesterol History</li>
+                        <li><strong class="text-slate-100">BPMEDS</strong> — BP Medication Use</li>
+                        <li><strong class="text-slate-100">_MICHD</strong> — Heart Disease History</li>
+                    </ul>
+                </div>
+
+                <!-- Health Status -->
+                <div class="glass p-6 rounded-2xl border-t-2 border-yellow-500/50">
+                    <h3 class="text-yellow-400 font-bold text-sm uppercase tracking-widest mb-4"><i
+                            class="fas fa-notes-medical mr-2"></i>Health Status & Recovery</h3>
+                    <ul class="text-sm text-slate-300 space-y-3">
+                        <li><strong class="text-slate-100">GENHLTH</strong> — General Health Rating (1-5) <span
+                                class="text-yellow-400 font-bold">#2 Feature</span></li>
+                        <li><strong class="text-slate-100">PHYSHLTH</strong> — Physical Health (unhealthy days)</li>
+                        <li><strong class="text-slate-100">MENTHLTH</strong> — Mental Health (unhealthy days)</li>
+                        <li><strong class="text-slate-100">POORHLTH</strong> — Poor Health Days</li>
+                        <li><strong class="text-slate-100">_PHYS14D</strong> — Physical Health Category</li>
+                        <li><strong class="text-slate-100">_MENT14D</strong> — Mental Health Category</li>
+                    </ul>
+                </div>
+
+                <!-- Activity & Mobility -->
+                <div class="glass p-6 rounded-2xl border-t-2 border-green-500/50">
+                    <h3 class="text-green-400 font-bold text-sm uppercase tracking-widest mb-4"><i
+                            class="fas fa-running mr-2"></i>Activity & Mobility</h3>
+                    <ul class="text-sm text-slate-300 space-y-3">
+                        <li><strong class="text-slate-100">EXERANY2</strong> — Exercise in Last 30 Days</li>
+                        <li><strong class="text-slate-100">_TOTINDA</strong> — Physical Activity Index</li>
+                        <li><strong class="text-slate-100">DIFFWALK</strong> — Difficulty Walking/Climbing</li>
+                    </ul>
+                </div>
+
+                <!-- Lifestyle Risk -->
+                <div class="glass p-6 rounded-2xl border-t-2 border-orange-500/50">
+                    <h3 class="text-orange-400 font-bold text-sm uppercase tracking-widest mb-4"><i
+                            class="fas fa-smoking mr-2"></i>Lifestyle Risk</h3>
+                    <ul class="text-sm text-slate-300 space-y-3">
+                        <li><strong class="text-slate-100">SMOKE100</strong> — Lifetime Smoker (>100 cigs)</li>
+                        <li><strong class="text-slate-100">_SMOKER3</strong> — Smoking Intensity Category</li>
+                        <li><strong class="text-slate-100">ALCDAY5</strong> — Alcohol (drinks/month)</li>
+                        <li><strong class="text-slate-100">ADDEPEV3</strong> — Depression Diagnosis</li>
+                    </ul>
+                </div>
+
+                <!-- Diet Quality -->
+                <div class="glass p-6 rounded-2xl border-t-2 border-emerald-500/50">
+                    <h3 class="text-emerald-400 font-bold text-sm uppercase tracking-widest mb-4"><i
+                            class="fas fa-apple-alt mr-2"></i>Diet Quality</h3>
+                    <ul class="text-sm text-slate-300 space-y-3">
+                        <li><strong class="text-slate-100">_FRUTSU1</strong> — Fruit Consumption (times/day)</li>
+                        <li><strong class="text-slate-100">_VEGESU1</strong> — Vegetable Consumption (times/day)</li>
+                        <li><strong class="text-slate-100">FRUTDA2_</strong> — Fruit Detailed Score</li>
+                        <li><strong class="text-slate-100">VEGEDA2_</strong> — Vegetable Detailed Score</li>
+                    </ul>
+                </div>
+
+                <!-- Demographics -->
+                <div class="glass p-6 rounded-2xl border-t-2 border-blue-500/50">
+                    <h3 class="text-blue-400 font-bold text-sm uppercase tracking-widest mb-4"><i
+                            class="fas fa-users mr-2"></i>Demographics</h3>
+                    <ul class="text-sm text-slate-300 space-y-3">
+                        <li><strong class="text-slate-100">_AGEG5YR</strong> — Age Bracket (5-year groups)</li>
+                        <li><strong class="text-slate-100">SEXVAR</strong> — Biological Sex (1=M, 2=F)</li>
+                    </ul>
                 </div>
             </div>
         </section>
 
         <section id="results" class="glass p-12 rounded-[3.5rem] border-t-4 border-blue-500">
-            <h2 class="text-4xl font-black mb-12 text-center uppercase tracking-tight">Results & <span class="text-blue-500">Analysis</span></h2>
-            <div class="grid md:grid-cols-2 gap-16 items-center">
+            <h2 class="text-5xl font-black mb-12 text-center uppercase tracking-tight">Results & <span
+                    class="text-blue-500">Analysis</span></h2>
+
+            <!-- Model Evolution Chart -->
+            <div class="grid md:grid-cols-2 gap-16 items-center mb-16">
                 <div class="h-80"><canvas id="resultsChart"></canvas></div>
-                <div class="space-y-6">
-                    <div class="p-7 rounded-2xl bg-white/5 flex justify-between items-center border border-white/10 shadow-inner">
-                        <span class="text-slate-300 font-bold uppercase text-sm tracking-widest">Expected Accuracy</span>
-                        <span class="text-green-400 font-mono font-black text-4xl">85% – 90%</span>
+                <div class="space-y-4">
+                    <div
+                        class="p-6 rounded-2xl bg-white/5 flex justify-between items-center border border-green-500/20 shadow-inner metric-highlight">
+                        <div>
+                            <span class="text-slate-300 font-bold uppercase text-base tracking-widest block">Final
+                                Accuracy</span>
+                            <span class="text-sm text-slate-500">Improved XGBoost @ Threshold 0.70</span>
+                        </div>
+                        <span class="text-green-400 font-mono font-black text-5xl">82.43%</span>
                     </div>
-                    <div class="p-7 rounded-2xl bg-white/5 flex justify-between items-center border border-white/10 shadow-inner">
-                        <span class="text-slate-300 font-bold uppercase text-sm tracking-widest">Current Accuracy</span>
-                        <span class="text-blue-400 font-mono font-black text-4xl">71%</span>
+                    <div
+                        class="p-6 rounded-2xl bg-white/5 flex justify-between items-center border border-white/10 shadow-inner">
+                        <span class="text-slate-300 font-bold uppercase text-base tracking-widest">ROC-AUC Score</span>
+                        <span class="text-blue-400 font-mono font-black text-4xl">0.8247</span>
                     </div>
-                    <p class="text-slate-300 text-base leading-relaxed text-justify"><strong>Key Insights:</strong><br/>• Lifestyle factors significantly improve prediction<br/>• BMI, activity, sleep & heart rate are strong indicators<br/>• Ensemble methods provide best performance</p>
+                    <div
+                        class="p-6 rounded-2xl bg-white/5 flex justify-between items-center border border-white/10 shadow-inner">
+                        <span class="text-slate-300 font-bold uppercase text-base tracking-widest">Optimal
+                            Threshold</span>
+                        <span class="text-purple-400 font-mono font-black text-4xl">0.70</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Classification Report & Confusion Matrix -->
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Classification Report -->
+                <div class="bg-black/30 p-8 rounded-2xl border border-white/5">
+                    <h3 class="text-blue-400 font-bold text-base uppercase tracking-widest mb-6"><i
+                            class="fas fa-chart-bar mr-2"></i>Classification Report (Final Model)</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-base text-left">
+                            <thead class="text-sm text-slate-400 uppercase border-b border-slate-700">
+                                <tr>
+                                    <th class="py-3 px-4">Class</th>
+                                    <th class="py-3 px-4 text-center">Precision</th>
+                                    <th class="py-3 px-4 text-center">Recall</th>
+                                    <th class="py-3 px-4 text-center">F1-Score</th>
+                                    <th class="py-3 px-4 text-center">Support</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-slate-300">
+                                <tr class="border-b border-slate-800/50">
+                                    <td class="py-3 px-4 font-bold text-green-400">Non-Diabetic (0)</td>
+                                    <td class="py-3 px-4 text-center font-mono">0.91</td>
+                                    <td class="py-3 px-4 text-center font-mono">0.88</td>
+                                    <td class="py-3 px-4 text-center font-mono">0.89</td>
+                                    <td class="py-3 px-4 text-center font-mono text-slate-500">74,031</td>
+                                </tr>
+                                <tr class="border-b border-slate-800/50">
+                                    <td class="py-3 px-4 font-bold text-red-400">Diabetic (1)</td>
+                                    <td class="py-3 px-4 text-center font-mono">0.44</td>
+                                    <td class="py-3 px-4 text-center font-mono">0.52</td>
+                                    <td class="py-3 px-4 text-center font-mono">0.48</td>
+                                    <td class="py-3 px-4 text-center font-mono text-slate-500">13,512</td>
+                                </tr>
+                                <tr class="text-slate-100 font-bold">
+                                    <td class="py-3 px-4">Accuracy</td>
+                                    <td class="py-3 px-4" colspan="2"></td>
+                                    <td class="py-3 px-4 text-center font-mono text-green-400">0.82</td>
+                                    <td class="py-3 px-4 text-center font-mono text-slate-500">87,543</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Confusion Matrix -->
+                <div class="bg-black/30 p-8 rounded-2xl border border-white/5">
+                    <h3 class="text-purple-400 font-bold text-base uppercase tracking-widest mb-6"><i
+                            class="fas fa-th mr-2"></i>Confusion Matrix</h3>
+                    <div class="grid grid-cols-2 gap-4 max-w-sm mx-auto">
+                        <div class="cm-cell bg-green-500/20 border border-green-500/30 rounded-xl p-4 text-center">
+                            <div class="text-green-400 text-3xl font-black font-mono">65,149</div>
+                            <div class="text-xs text-green-400/70 uppercase tracking-widest mt-1">True Negative</div>
+                        </div>
+                        <div class="cm-cell bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-center">
+                            <div class="text-red-400 text-3xl font-black font-mono">8,882</div>
+                            <div class="text-xs text-red-400/70 uppercase tracking-widest mt-1">False Positive</div>
+                        </div>
+                        <div class="cm-cell bg-orange-500/10 border border-orange-500/20 rounded-xl p-4 text-center">
+                            <div class="text-orange-400 text-3xl font-black font-mono">6,510</div>
+                            <div class="text-xs text-orange-400/70 uppercase tracking-widest mt-1">False Negative</div>
+                        </div>
+                        <div class="cm-cell bg-blue-500/20 border border-blue-500/30 rounded-xl p-4 text-center">
+                            <div class="text-blue-400 text-3xl font-black font-mono">7,002</div>
+                            <div class="text-xs text-blue-400/70 uppercase tracking-widest mt-1">True Positive</div>
+                        </div>
+                    </div>
+                    <p class="text-center text-[10px] text-slate-500 mt-4 uppercase tracking-widest">Predicted → |
+                        Actual ↓</p>
+                </div>
+            </div>
+
+            <!-- Why This Threshold? -->
+            <div class="mt-16 grid md:grid-cols-2 gap-8">
+                <div class="glass p-8 rounded-2xl border-l-4 border-yellow-500">
+                    <h3 class="text-yellow-400 font-bold text-base uppercase tracking-widest mb-5"><i
+                            class="fas fa-question-circle mr-2"></i>Why Threshold 0.70 Over 0.80?</h3>
+                    <p class="text-base text-slate-300 leading-relaxed">
+                        In medical diagnostics, <strong class="text-white">missing a diabetic patient (False Negative)
+                            is far more dangerous than a false alarm (False Positive)</strong>. A missed diagnosis means
+                        the patient receives no treatment and risks serious complications like cardiovascular disease,
+                        kidney failure, and vision loss.
+                    </p>
+                    <div class="mt-5 grid grid-cols-2 gap-4">
+                        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-center">
+                            <p class="text-xs text-red-400 uppercase tracking-wider font-bold mb-1">@ Threshold 0.80</p>
+                            <p class="text-2xl font-black font-mono text-red-400">0.29</p>
+                            <p class="text-xs text-slate-500">Diabetic Recall</p>
+                            <p class="text-xs text-slate-500 mt-1">9,530 patients missed</p>
+                        </div>
+                        <div class="bg-green-500/10 border border-green-500/20 rounded-xl p-4 text-center">
+                            <p class="text-xs text-green-400 uppercase tracking-wider font-bold mb-1">@ Threshold 0.70 ✓
+                            </p>
+                            <p class="text-2xl font-black font-mono text-green-400">0.52</p>
+                            <p class="text-xs text-slate-500">Diabetic Recall</p>
+                            <p class="text-xs text-slate-500 mt-1">6,510 patients missed</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-yellow-400/70 mt-4 italic"><i class="fas fa-lightbulb mr-1"></i> Choosing
+                        0.70 catches 3,020 more diabetic patients at the cost of some extra false alarms — a worthwhile
+                        trade-off in healthcare.</p>
+                </div>
+                <div>
+                    <h3 class="text-slate-300 font-bold text-base uppercase tracking-widest mb-5 text-center"><i
+                            class="fas fa-sliders-h mr-2"></i>Threshold Optimization</h3>
+                    <div class="h-64"><canvas id="thresholdChart"></canvas></div>
+                </div>
+            </div>
+
+            <!-- Key Insights -->
+            <div class="mt-12 glass p-8 rounded-2xl border border-white/5">
+                <p class="text-slate-300 text-lg leading-relaxed text-justify">
+                    <strong class="text-white text-xl">Key Insights:</strong><br /><br />
+                    • <strong class="text-blue-400">BPHIGH6 (High Blood Pressure)</strong> is the single most predictive
+                    feature at 38.8% importance — strongly validates the clinical link between hypertension and
+                    diabetes<br />
+                    • <strong>General Health rating</strong> and <strong>High Cholesterol</strong> are the 2nd & 3rd
+                    most important features<br />
+                    • Threshold 0.70 chosen over 0.80 to prioritize <strong class="text-yellow-400">higher recall (0.52
+                        vs 0.29)</strong> for diabetic class — critical in healthcare to minimize missed diagnoses<br />
+                    • Expanding from 16 to 25 features and using median imputation (437K vs 67K records) significantly
+                    improved model performance<br />
+                    • Class imbalance handling via <code class="text-green-400">scale_pos_weight</code> outperformed
+                    naive undersampling<br />
+                    • <strong class="text-purple-400">AI-READI dataset</strong> will be integrated next — provides real
+                    wearable signals (heart rate, SpO2, steps, sleep, stress, continuous glucose) from Garmin & Dexcom
+                    devices, enabling diabetes prediction using data similar to consumer smartwatches (Fitbit, Samsung
+                    Watch)
+                </p>
+            </div>
+        </section>
+
+        <!-- FUTURE SCOPE SECTION -->
+        <section class="space-y-10">
+            <h2 class="text-5xl font-black text-center uppercase tracking-tight">Future <span
+                    class="text-emerald-500">Scope</span></h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div
+                    class="glass p-8 rounded-3xl border-t-2 border-emerald-500/50 hover:border-emerald-400/80 transition-all duration-300">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="bg-emerald-500/20 p-3 rounded-xl"><i
+                                class="fas fa-watch text-emerald-400 text-xl"></i></div>
+                        <h3 class="font-bold text-base text-emerald-400 uppercase tracking-wider">Wearable Integration
+                        </h3>
+                    </div>
+                    <p class="text-base text-slate-300 leading-relaxed">Integrate the <strong
+                            class="text-white">AI-READI dataset</strong> with real wearable signals — heart rate, SpO2,
+                        step count, sleep stages, stress levels, and continuous glucose monitoring from Garmin & Dexcom
+                        devices. This enables real-time, non-invasive risk assessment using data from consumer
+                        smartwatches like <strong class="text-white">Fitbit and Samsung Galaxy Watch</strong>.</p>
+                </div>
+                <div
+                    class="glass p-8 rounded-3xl border-t-2 border-blue-500/50 hover:border-blue-400/80 transition-all duration-300">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="bg-blue-500/20 p-3 rounded-xl"><i class="fas fa-search text-blue-400 text-xl"></i>
+                        </div>
+                        <h3 class="font-bold text-base text-blue-400 uppercase tracking-wider">Explainability (SHAP /
+                            LIME)</h3>
+                    </div>
+                    <p class="text-base text-slate-300 leading-relaxed">Implement <strong class="text-white">SHAP
+                            (SHapley Additive exPlanations)</strong> and <strong class="text-white">LIME</strong> to
+                        provide transparent, per-patient explanations of risk predictions. This builds clinical trust
+                        and helps doctors understand <em>why</em> a patient was flagged as high-risk, not just that they
+                        were.</p>
+                </div>
+                <div
+                    class="glass p-8 rounded-3xl border-t-2 border-purple-500/50 hover:border-purple-400/80 transition-all duration-300">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="bg-purple-500/20 p-3 rounded-xl"><i
+                                class="fas fa-mobile-alt text-purple-400 text-xl"></i></div>
+                        <h3 class="font-bold text-base text-purple-400 uppercase tracking-wider">Mobile App & Real-Time
+                        </h3>
+                    </div>
+                    <p class="text-base text-slate-300 leading-relaxed">Deploy the trained model as a <strong
+                            class="text-white">REST API</strong> connected to a mobile application. Users can sync
+                        wearable data automatically and receive real-time risk scores, daily health summaries, and
+                        proactive alerts — enabling <strong class="text-white">continuous monitoring</strong> and
+                        preventive healthcare at scale.</p>
                 </div>
             </div>
         </section>
 
         <section id="team" class="text-center pt-10 border-t border-slate-900">
-            <h2 class="text-[11px] font-black text-slate-500 uppercase tracking-[0.5em] mb-12">Academic Credits</h2>
+            <h2 class="text-sm font-black text-slate-500 uppercase tracking-[0.5em] mb-12">Academic Credits</h2>
             <div class="flex flex-col items-center gap-8 max-w-2xl mx-auto">
                 <div class="glass px-12 py-10 rounded-[2rem] border-b-4 border-slate-700 w-full">
-                    <p class="text-[10px] font-bold text-slate-400 mb-3 uppercase tracking-widest">Student</p>
-                    <p class="font-black text-2xl text-slate-100">Mannan Grover</p>
-                    <p class="text-[11px] text-slate-400 mt-2">Reg No: 2427030399</p>
+                    <p class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-widest">Student</p>
+                    <p class="font-black text-3xl text-slate-100">Mannan Grover</p>
+                    <p class="text-sm text-slate-400 mt-2">Reg No: 2427030399</p>
                 </div>
                 <div class="glass px-12 py-10 rounded-[2rem] border-b-4 border-blue-600 w-full">
-                    <p class="text-[10px] font-bold text-blue-500 mb-3 uppercase tracking-widest">Project Guide</p>
-                    <p class="font-black text-2xl text-slate-100">Jay Prakash Singh</p>
+                    <p class="text-xs font-bold text-blue-500 mb-3 uppercase tracking-widest">Project Guide</p>
+                    <p class="font-black text-3xl text-slate-100">Dr. Jay Prakash Singh</p>
                 </div>
             </div>
         </section>
     </main>
 
     <footer class="py-12 text-center bg-black/40 border-t border-slate-900">
-        <p class="text-slate-600 text-[10px] font-bold tracking-[0.3em] uppercase mb-2">Manipal University Jaipur</p>
-        <p class="text-slate-500 text-[9px] font-medium tracking-[0.2em] uppercase opacity-50">Department of Computer Science & Engineering • 2026</p>
+        <p class="text-slate-600 text-sm font-bold tracking-[0.3em] uppercase mb-2">Manipal University Jaipur</p>
+        <p class="text-slate-500 text-xs font-medium tracking-[0.2em] uppercase opacity-50">Department of Computer
+            Science & Engineering • 2026</p>
     </footer>
 
     <script>
@@ -193,10 +687,10 @@
         }
 
         // Start stopwatch when DOM is ready
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             startTimer();
         });
-        
+
         // Fallback if page is already loaded
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', startTimer);
@@ -204,29 +698,69 @@
             startTimer();
         }
 
-        // RESULTS CHART (Demo Data)
+        // MODEL EVOLUTION CHART
         const ctx = document.getElementById('resultsChart').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Random Forest', 'XGBoost'],
+                labels: ['Random Forest\n(Phase 1)', 'XGBoost\n(Phase 2)', 'Improved XGBoost\n(Phase 3)'],
                 datasets: [{
-                    data: [67, 71],
-                    backgroundColor: ['#3b82f6', '#10b981'],
-                    borderRadius: 15,
+                    label: 'Accuracy (%)',
+                    data: [67, 67.23, 82.43],
+                    backgroundColor: ['#64748b', '#3b82f6', '#10b981'],
+                    borderRadius: 12,
                     barThickness: 50
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: { 
-                    y: { beginAtZero: true, max: 100, grid: { color: '#ffffff05' }, ticks: { color: '#475569', callback: function(value) { return value + '%'; } } },
-                    x: { grid: { display: false }, ticks: { color: '#475569' } }
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Model Accuracy Evolution', color: '#94a3b8', font: { size: 16, weight: 'bold' } }
+                },
+                scales: {
+                    y: { beginAtZero: true, max: 100, grid: { color: '#ffffff08' }, ticks: { color: '#475569', font: { size: 14 }, callback: function (value) { return value + '%'; } } },
+                    x: { grid: { display: false }, ticks: { color: '#475569', font: { size: 13 } } }
+                }
+            }
+        });
+
+
+        // THRESHOLD TUNING CHART
+        const thCtx = document.getElementById('thresholdChart').getContext('2d');
+        new Chart(thCtx, {
+            type: 'line',
+            data: {
+                labels: ['0.60', '0.65', '0.70', '0.75', '0.80'],
+                datasets: [{
+                    label: 'Accuracy',
+                    data: [78.08, 80.47, 82.43, 84.05, 85.05],
+                    borderColor: '#a855f7',
+                    backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: ['#6366f1', '#6366f1', '#10b981', '#6366f1', '#6366f1'],
+                    pointRadius: [6, 6, 10, 6, 6],
+                    pointBorderWidth: [2, 2, 3, 2, 2],
+                    pointBorderColor: ['#6366f1', '#6366f1', '#10b981', '#6366f1', '#6366f1'],
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Accuracy vs Decision Threshold', color: '#94a3b8', font: { size: 16, weight: 'bold' } }
+                },
+                scales: {
+                    y: { min: 75, max: 90, grid: { color: '#ffffff08' }, ticks: { color: '#475569', font: { size: 13 }, callback: function (v) { return v + '%'; } } },
+                    x: { grid: { color: '#ffffff05' }, ticks: { color: '#475569' }, title: { display: true, text: 'Threshold', color: '#64748b' } }
                 }
             }
         });
     </script>
 </body>
+
 </html>
