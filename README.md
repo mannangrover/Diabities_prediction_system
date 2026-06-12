@@ -9,8 +9,8 @@ BRFSS (Behavioral Risk Factor Surveillance System)
 https://www.kaggle.com/datasets/dariushbahrami/cdc-brfss-survey-2021?utm_source=chatgpt.com
 
 Future Dataset Integration:
-Fitbit Fitness Tracker Dataset
-https://www.kaggle.com/code/nadaemad2002/fitbit-fitness-tracker-data
+The AI-READI (Artificial Intelligence Ready and Equitable Atlas for Diabetes Insights) dataset
+https://fairhub.io/
 
 Live Demo
 
